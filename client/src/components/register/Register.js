@@ -5,6 +5,7 @@ import axios from "axios";
 export default class Register extends Component {
   constructor(props) {
     super(props);
+    this.registrationForm = React.createRef();
     this.state = {
       firstname: "",
       lastname: "",
@@ -12,7 +13,8 @@ export default class Register extends Component {
       cardNumber: "",
       PIN: "",
       rePIN: "",
-      formErrors: []
+      formErrors: [],
+      successMessage: ""
     };
   }
 
@@ -21,13 +23,21 @@ export default class Register extends Component {
   };
 
   validateName = () => {
+    let errors = [
+      "you have entered an invalid first name",
+      "you have entered an invalid last name"
+    ];
     let nameErrors = [];
     var regName = /^[a-zA-Z]+$/;
     if (!regName.test(this.state.firstname)) {
-      nameErrors.push("you have entered an invalid first name");
+      if (!this.state.formErrors.includes(errors[0])) {
+        nameErrors.push(errors[0]);
+      }
     }
     if (!regName.test(this.state.lastname)) {
-      nameErrors.push("you have entered an invalid last name");
+      if (!this.state.formErrors.includes(errors[1])) {
+        nameErrors.push(errors[1]);
+      }
     }
     if (nameErrors.length !== 0) {
       this.setState(
@@ -39,44 +49,42 @@ export default class Register extends Component {
     }
   };
   validateInitialBalance = () => {
+    let error = "Initial balance has a minimum of $100";
     let { initialBalance } = this.state;
     if (parseFloat(initialBalance) >= 100) {
       return true;
-    } else {
+    } else if (!this.state.formErrors.includes(error)) {
       this.setState(
         {
-          formErrors: [
-            ...this.state.formErrors,
-            "Initial balance has a minimum of $100"
-          ]
+          formErrors: [...this.state.formErrors, error]
         },
         () => false
       );
     }
   };
   validateCardNumber = () => {
+    let error = "Invalid Card Number please enter 16 digits";
     let { cardNumber } = this.state;
     if (cardNumber.length === 16) {
       return true;
-    } else {
+    } else if (!this.state.formErrors.includes(error)) {
       this.setState(
         {
-          formErrors: [
-            ...this.state.formErrors,
-            "Invalid Card Number please enter 16 digits"
-          ]
+          formErrors: [...this.state.formErrors, error]
         },
         () => false
       );
     }
   };
+
   validatePin = () => {
+    let errors = ["PIN has to be 4 digits", "PIN fields do not match"];
     let pinErrors = [];
     if (this.state.PIN.length !== 4) {
-      pinErrors.push("PIN has to be 4 digits");
+      if (!this.state.formErrors.includes(errors[0])) pinErrors.push(errors[0]);
     }
     if (this.state.PIN !== this.state.rePIN) {
-      pinErrors.push("PIN fields do not match");
+      if (!this.state.formErrors.includes(errors[1])) pinErrors.push(errors[1]);
     }
     if (pinErrors.length === 0) {
       return true;
@@ -95,21 +103,35 @@ export default class Register extends Component {
     let validInitialBalance = await this.validateInitialBalance();
     return validName && validCardNumber && validPin && validInitialBalance;
   };
+  resetForm = () => {
+    this.registrationForm.current.reset();
+    this.setState({ successMessage: "User added successfully" }, () =>
+      this.setState({
+        firstname: "",
+        lastname: "",
+        initialBalance: "",
+        cardNumber: "",
+        PIN: "",
+        rePIN: "",
+        formErrors: []
+      })
+    );
+  };
   handleSubmit = async e => {
     e.preventDefault();
     if (await this.validateForm()) {
       let { firstname, lastname, initialBalance, cardNumber, PIN } = this.state;
-      let userData = {firstname, lastname, initialBalance, cardNumber, PIN};
+      let userData = { firstname, lastname, initialBalance, cardNumber, PIN };
       axios.post("http://localhost:8080/users/createUser", userData);
-    } else {
-      console.log(this.state.formErrors);
+      this.resetForm();
     }
   };
+
   render = () => (
     <div>
       <Header />
       <div className="registrationContainer">
-        <form className="registerForm">
+        <form className="registerForm" ref={this.registrationForm}>
           <h2 className="formTitle">Register</h2>
           <div>
             <input
@@ -148,6 +170,7 @@ export default class Register extends Component {
               placeholder="PIN"
               name="PIN"
               onChange={this.handleChange}
+              maxLength="4"
             />
             <input
               name="rePIN"
@@ -155,8 +178,10 @@ export default class Register extends Component {
               className="textField"
               placeholder="Re-Enter PIN"
               onChange={this.handleChange}
+              maxLength="4"
             />
           </div>
+          <p className="successMessage">{this.state.successMessage}</p>
           <ul className="errorsList">
             {this.state.formErrors.map((error, i) => (
               <li key={i} className="err">

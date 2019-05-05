@@ -1,16 +1,25 @@
-const environment = "development"; 
+const environment = "development";
 const options = require("../knexfile.js")[environment];
 const knex = require("knex")(options);
 
 const createUser = data => {
-  console.log("called");
-
   knex("users")
-    .insert({
-      first_name: data.firstname,
-      last_name: data.lastname
-    })
-    .then(console.log("done"));
+    .insert(
+      {
+        first_name: data.firstname,
+        last_name: data.lastname
+      },
+      "id"
+    )
+    .then(userID =>
+      knex("accounts").insert({
+        user_id: parseInt(userID),
+        card_number: data.cardNumber,
+        PIN: data.PIN,
+        balance: parseFloat(data.initialBalance)
+      })
+    )
+    .then(console.log("user created"));
 };
 
 // update auth_id entry with all profile information
