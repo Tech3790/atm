@@ -1,6 +1,6 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable("transactions", function(table) {
-    table.increments("id").primary();
+    table.increments().primary();
     table
       .integer("account_id")
       .references("id")

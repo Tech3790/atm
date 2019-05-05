@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require('body-parser')
 const app = express();
 const port = 8080;
 
@@ -10,7 +11,7 @@ app.use((req, res, next) => {
   );
   next();
 });
-
+app.use(bodyParser.json({ type: 'application/json' }))
 app.use(require("./routes"));
 
 app.use((req, res) => {

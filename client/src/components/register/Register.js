@@ -98,13 +98,14 @@ export default class Register extends Component {
   handleSubmit = async e => {
     e.preventDefault();
     if (await this.validateForm()) {
-      console.log("valid form");
-      // axios.get("http://localhost:8080/users");
+      let { firstname, lastname, initialBalance, cardNumber, PIN } = this.state;
+      let userData = {firstname, lastname, initialBalance, cardNumber, PIN};
+      axios.post("http://localhost:8080/users/createUser", userData);
     } else {
       console.log(this.state.formErrors);
     }
   };
-  render = () => 
+  render = () => (
     <div>
       <Header />
       <div className="registrationContainer">
@@ -173,4 +174,5 @@ export default class Register extends Component {
         </form>
       </div>
     </div>
+  );
 }
