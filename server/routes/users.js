@@ -1,21 +1,9 @@
-const router = require("express").Router();
-const knex = require("../database/knex");
+const express = require('express');
+const router = express.Router();
 
-router.get("/", (req, res) => {
-  knex("users").then(users => {
-    res.send(users);
-  });
+router.get('/', (req, res) => {
+  res.send('hello from users');
+  console.log('all the way')
 });
 
-router.post("/createuser", (req, res) => {
-  let name = JSON.stringify(req.body.username);
-  let profilePicture = JSON.stringify(req.body.profilePicture);
-
-  knex("users")
-    .insert({ username: name, profile_picture: profilePicture })
-    .then(() => {
-      res.send("ok");
-    });
-});
-
-module.exports = router;
+module.exports = router

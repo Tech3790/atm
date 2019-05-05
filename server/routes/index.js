@@ -1,3 +1,10 @@
-const users = require("./users");
+const express = require("express");
+const router = express.Router();
 
-module.exports = { users };
+router.use("/users", require("./users.js"));
+
+router.use((req, res) => {
+  res.status(404).send("Unknown Request");
+});
+
+module.exports = router;
