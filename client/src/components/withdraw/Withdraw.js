@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./Withdraw.sass";
 import Header from "../header/Header";
+import axios from "axios";
+
 export default class Withdraw extends Component {
   constructor(props) {
     super(props);
@@ -11,12 +13,17 @@ export default class Withdraw extends Component {
       PIN: "",
       amount: "",
       formErrors: [],
-      successMessage: ""
+      successMessage: "",
+      remaining: ""
     };
   }
 
   handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value, formErrors: [] });
+    this.setState({
+      [e.target.name]: e.target.value,
+      formErrors: [],
+      successMessage: ""
+    });
   };
 
   validateCardNumber = () => {
@@ -80,14 +87,12 @@ export default class Withdraw extends Component {
 
   resetForm = () => {
     this.withdrawForm.current.reset();
-    this.setState({ successMessage: "Transaction succeeded please take you money and your receipt" }, () =>
-      this.setState({
-        cardNumber: "",
-        PIN: "",
-        amount: "",
-        formErrors: []
-      })
-    );
+    this.setState({
+      cardNumber: "",
+      PIN: "",
+      amount: "",
+      formErrors: []
+    });
   };
 
   handleSubmit = async e => {
@@ -95,9 +100,24 @@ export default class Withdraw extends Component {
     if (await this.validateForm()) {
       let { cardNumber, PIN, amount } = this.state;
       let withdrawData = { cardNumber, PIN, amount };
-      // axios.post("http://localhost:8080/users/createUser", depositData);
+      axios
+        .post("http://localhost:8080/accounts/withdraw", withdrawData)
+        .then(data => {
+          this.setState({
+            remaining: data,
+            successMessage:
+              "Transaction succeeded please take you money and your receipt."
+          });
+        })
+        .catch(e =>
+          this.setState({
+            formErrors: [
+              ...this.state.formErrors,
+              "Unable to complete transaction, daily limit exceeded"
+            ]
+          })
+        );
       this.resetForm();
-
     }
   };
 

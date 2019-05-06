@@ -12,9 +12,19 @@ router.post("/deposit", (req, res) => {
   });
 });
 
+router.post("/withdraw", (req, res) => {
+  knex.withdraw(req.body).then(data => {
+    if (data) {
+      res.send(data);
+    } else {
+      res.sendStatus(401);
+    }
+  });
+});
+
 router.post("/getTransactions", (req, res) => {
   knex.getBalanceAndTransactions(req.body).then(data => {
-      res.send(data)
+    res.send(data);
   });
 });
 

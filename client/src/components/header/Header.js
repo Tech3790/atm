@@ -32,15 +32,12 @@ export default class Header extends Component {
           </div>
           <div
             className="link"
-            onClick={() => this.handleRedirect("/accountsummary")}
-          >
-            Account Summary
-          </div>
-          <div
-            className="link"
             onClick={() => this.handleRedirect("/addUsers")}
           >
             Add Users
+          </div>
+          <div className="link" onClick={() => this.handleRedirect("/deposit")}>
+            Deposit
           </div>
           <div
             className="link"
@@ -48,8 +45,11 @@ export default class Header extends Component {
           >
             Withdraw
           </div>
-          <div className="link" onClick={() => this.handleRedirect("/deposit")}>
-            Deposit
+          <div
+            className="link"
+            onClick={() => this.handleRedirect("/accountsummary")}
+          >
+            Account Summary
           </div>
         </div>
         <a href="https://github.com/Tech3790/atm" className="iconLink">
