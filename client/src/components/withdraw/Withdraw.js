@@ -103,20 +103,28 @@ export default class Withdraw extends Component {
       axios
         .post("http://localhost:8080/accounts/withdraw", withdrawData)
         .then(data => {
-          this.setState({
-            remaining: data,
-            successMessage:
-              "Transaction succeeded please take you money and your receipt."
-          });
+          console.log("data is ", data.data);
+
+          if (typeof data.data === "string") {
+            this.setState({
+              formErrors: [...this.state.formErrors, data.data]
+            });
+          } else {
+            this.setState({
+              remaining: data,
+              successMessage:
+                "Transaction succeeded please take you money and your receipt."
+            });
+          }
         })
-        .catch(e =>
+        .catch(e => {
           this.setState({
             formErrors: [
               ...this.state.formErrors,
               "Unable to complete transaction, daily limit exceeded"
             ]
-          })
-        );
+          });
+        });
       this.resetForm();
     }
   };

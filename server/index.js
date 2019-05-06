@@ -18,4 +18,4 @@ app.use((req, res) => {
   res.status(404).send("Unknown Request");
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`app listening on port ${port}!`));

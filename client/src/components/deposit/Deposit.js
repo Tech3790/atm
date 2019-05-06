@@ -84,7 +84,17 @@ export default class Deposit extends Component {
       let depositData = { cardNumber, amount, PIN };
       axios
         .post("http://localhost:8080/accounts/deposit", depositData)
-        .then(() => this.setState({ successMessage: "Transaction succeeded" }))
+        .then(data => {
+          console.log("daaaataaaa", data);
+
+          if (data.data === "card number doesn't exist") {
+            this.setState({
+              formErrors: [...this.state.formErrors, data.data]
+            });
+          } else {
+            this.setState({ successMessage: "Transaction succeeded" });
+          }
+        })
         .catch(error =>
           this.setState({
             formErrors: [

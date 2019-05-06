@@ -19,7 +19,11 @@ export default class Register extends Component {
   }
 
   handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value, formErrors: [], successMessage: "" });
+    this.setState({
+      [e.target.name]: e.target.value,
+      formErrors: [],
+      successMessage: ""
+    });
   };
 
   validateName = () => {
@@ -150,6 +154,7 @@ export default class Register extends Component {
               type="text"
               placeholder="First Name"
               onChange={this.handleChange}
+              autocomplete="off"
             />
             <input
               name="lastname"
@@ -157,6 +162,7 @@ export default class Register extends Component {
               type="text"
               placeholder="Last Name"
               onChange={this.handleChange}
+              autocomplete="off"
             />
           </div>
           <div>
