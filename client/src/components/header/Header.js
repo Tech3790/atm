@@ -24,42 +24,38 @@ export default class Header extends Component {
     return this.state.redirect === true ? (
       <Redirect to={this.state.redirectPath} />
     ) : (
-      <div>
-        <div className="container">
-          <p className="title">Welcome to the ATM simulator</p>
-          <div className="navbar">
-            <div className="link" onClick={() => this.handleRedirect("/")}>
-              Home
-            </div>
-            <div className="link" onClick={() => this.handleRedirect("/accountsummary")}>
-              Account Summary
-            </div>
-            <div
-              className="link"
-              onClick={() => this.handleRedirect("/addUsers")}
-            >
-              Add Users
-            </div>
-            <div
-              className="link"
-              onClick={() => this.handleRedirect("/withdraw")}
-            >
-              Withdraw
-            </div>
-            <div
-              className="link"
-              onClick={() => this.handleRedirect("/deposit")}
-            >
-              Deposit
-            </div>
+      <div className="container">
+        <p className="title">Welcome to the ATM simulator</p>
+        <div className="navbar">
+          <div className="link" onClick={() => this.handleRedirect("/")}>
+            Home
           </div>
-          <div className="iconContainer">
-            <a href="https://github.com/Tech3790/atm" className="iconLink">
-              <img src={githubIcon} alt="github" className="githubIcon" />
-              <p className="checkRepo">Check this Repo on GitHub</p>
-            </a>
+          <div
+            className="link"
+            onClick={() => this.handleRedirect("/accountsummary")}
+          >
+            Account Summary
+          </div>
+          <div
+            className="link"
+            onClick={() => this.handleRedirect("/addUsers")}
+          >
+            Add Users
+          </div>
+          <div
+            className="link"
+            onClick={() => this.handleRedirect("/withdraw")}
+          >
+            Withdraw
+          </div>
+          <div className="link" onClick={() => this.handleRedirect("/deposit")}>
+            Deposit
           </div>
         </div>
+        <a href="https://github.com/Tech3790/atm" className="iconLink">
+          <img src={githubIcon} alt="github" className="githubIcon" />
+          <p className="checkRepoParagraph">Check this Repo on GitHub</p>
+        </a>
       </div>
     );
   }
