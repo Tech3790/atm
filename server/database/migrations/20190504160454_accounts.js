@@ -11,6 +11,7 @@ exports.up = function(knex, Promise) {
     table.integer("PIN");
     table.decimal("balance");
     table.timestamps(true, true);
+    table.unique("card_number")
   });
 };
 

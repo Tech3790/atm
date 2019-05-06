@@ -82,22 +82,29 @@ export default class Deposit extends Component {
     if (await this.validateForm()) {
       let { cardNumber, amount, PIN } = this.state;
       let depositData = { cardNumber, amount, PIN };
-      // axios.post("http://localhost:8080/users/createUser", depositData);
+      axios
+        .post("http://localhost:8080/accounts/deposit", depositData)
+        .then(() => this.setState({ successMessage: "Transaction succeeded" }))
+        .catch(error =>
+          this.setState({
+            formErrors: [
+              ...this.state.formErrors,
+              "Unable to deposit, check card number and PIN"
+            ]
+          })
+        );
       this.resetForm();
-      console.log(depositData);
     }
   };
 
   resetForm = () => {
     this.depositForm.current.reset();
-    this.setState({ successMessage: "Transaction succeeded" }, () =>
-      this.setState({
-        cardNumber: "",
-        PIN: "",
-        amount: "",
-        formErrors: []
-      })
-    );
+    this.setState({
+      cardNumber: "",
+      PIN: "",
+      amount: "",
+      formErrors: []
+    });
   };
 
   render() {

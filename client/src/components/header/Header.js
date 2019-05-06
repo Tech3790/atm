@@ -31,9 +31,12 @@ export default class Header extends Component {
             <div className="link" onClick={() => this.handleRedirect("/")}>
               Home
             </div>
+            <div className="link" onClick={() => this.handleRedirect("/accountsummary")}>
+              Account Summary
+            </div>
             <div
               className="link"
-              onClick={() => this.handleRedirect("/addusers")}
+              onClick={() => this.handleRedirect("/addUsers")}
             >
               Add Users
             </div>

@@ -19,7 +19,7 @@ export default class Register extends Component {
   }
 
   handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value, formErrors: [] });
+    this.setState({ [e.target.name]: e.target.value, formErrors: [], successMessage: "" });
   };
 
   validateName = () => {
@@ -105,24 +105,34 @@ export default class Register extends Component {
   };
   resetForm = () => {
     this.registrationForm.current.reset();
-    this.setState({ successMessage: "User added successfully" }, () =>
-      this.setState({
-        firstname: "",
-        lastname: "",
-        initialBalance: "",
-        cardNumber: "",
-        PIN: "",
-        rePIN: "",
-        formErrors: []
-      })
-    );
+    this.setState({
+      firstname: "",
+      lastname: "",
+      initialBalance: "",
+      cardNumber: "",
+      PIN: "",
+      rePIN: "",
+      formErrors: []
+    });
   };
   handleSubmit = async e => {
     e.preventDefault();
     if (await this.validateForm()) {
       let { firstname, lastname, initialBalance, cardNumber, PIN } = this.state;
       let userData = { firstname, lastname, initialBalance, cardNumber, PIN };
-      axios.post("http://localhost:8080/users/createUser", userData);
+      axios
+        .post("http://localhost:8080/users/createUser", userData)
+        .then(res => {
+          this.setState({ successMessage: "User added successfully" });
+        })
+        .catch(e => {
+          this.setState({
+            formErrors: [
+              ...this.state.formErrors,
+              "Unable to add user, card number already exists"
+            ]
+          });
+        });
       this.resetForm();
     }
   };
@@ -184,7 +194,7 @@ export default class Register extends Component {
           <p className="successMessage">{this.state.successMessage}</p>
           <ul className="errorsList">
             {this.state.formErrors.map((error, i) => (
-              <li key={i} className="err">
+              <li key={i} className="error">
                 {error}
               </li>
             ))}

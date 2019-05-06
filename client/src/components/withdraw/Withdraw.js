@@ -97,7 +97,7 @@ export default class Withdraw extends Component {
       let withdrawData = { cardNumber, PIN, amount };
       // axios.post("http://localhost:8080/users/createUser", depositData);
       this.resetForm();
-      console.log(withdrawData);
+
     }
   };
 

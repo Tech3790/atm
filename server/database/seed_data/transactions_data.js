@@ -1,7 +1,7 @@
 module.exports = [
   {
     account_id: 1,
-    type: "deposit",
+    type: "Deposit",
     amount: 20.25
   }
 ];

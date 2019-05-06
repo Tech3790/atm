@@ -1,10 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const knex = require('../database/models/usersModel');
+const knex = require("../database/models/usersModel");
 
-router.post('/createUser', (req, res) => {
-  knex.createUser(req.body)
-  res.sendStatus(201);
+router.post("/createUser", async (req, res) => {
+  if (await knex.createUser(req.body)) {
+    res.sendStatus(201);
+  } else {
+    res.sendStatus(500);
+  }
 });
 
-module.exports = router
+module.exports = router;

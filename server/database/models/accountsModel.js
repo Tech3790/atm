@@ -1,35 +1,53 @@
-const environment = "development"; 
+const environment = "development";
 const options = require("../knexfile.js")[environment];
 const knex = require("knex")(options);
 
-// const createUser = data => {
-//   console.log("called");
-
-//   knex("users")
-//     .insert({
-//       first_name: data.firstname,
-//       last_name: data.lastname
-//     })
-//     .then(console.log("done"));
-// };
-
-// update auth_id entry with all profile information
-// updateUserProfile = update => {
-//   return knex("users")
-//     .where({ auth_id: update.auth_id })
-//     .update({
-//       username: update.username,
-//       user_country: update.user_country,
-//       picture: update.picture,
-//       interests: update.interests,
-//       is_guide: update.is_guide,
-//       primary_lang: update.primary_lang,
-//       secondary_langs: update.secondary_langs,
-//       blocked: {}
-//     })
-//     .returning("*");
-// };
-
+const deposit = body => {
+  return knex("accounts")
+    .where("card_number", body.cardNumber)
+    .then(obj => {
+      if (obj[0].PIN === parseInt(body.PIN)) {
+        return knex("accounts")
+          .where("card_number", body.cardNumber)
+          .update({
+            balance: knex.raw(`?? + ${body.amount}`, ["balance"])
+          })
+          .then(result => {
+            knex("transactions")
+              .insert({
+                account_id: obj[0].id,
+                type: "Deposit",
+                amount: body.amount
+              })
+              .then(res => {})
+              .catch(error => {
+                console.error(error);
+              });
+            return result;
+          })
+          .catch(function(err) {
+            return false;
+          });
+      }
+    });
+};
+const getBalanceAndTransactions = body => {
+  return knex("accounts")
+    .where("card_number", body.cardNumber)
+    .then(obj => {
+      if (obj[0].PIN === parseInt(body.PIN)) {
+        return knex("transactions")
+          .where("account_id", obj[0].id)
+          .then(result => {
+            return [result, obj[0].balance];
+          })
+          .catch(function(err) {
+            return false;
+          });
+      }
+    });
+};
 module.exports = {
-//   createUser
+  getBalanceAndTransactions,
+  deposit
 };
