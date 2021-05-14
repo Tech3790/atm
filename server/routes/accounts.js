@@ -4,7 +4,9 @@ const knex = require("../database/models/accountsModel");
 
 router.post("/deposit", (req, res) => {
   knex.deposit(req.body).then(data => {
-    console.log("dep data is:", data);
+    console.log("dep data is:");
+    const {smthng} = req.body
+    console.log(smthng);
     if (data === 1) {
       res.sendStatus(201);
     } else if (typeof data === "string") {
