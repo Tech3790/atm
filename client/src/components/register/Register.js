@@ -154,7 +154,7 @@ export default class Register extends Component {
               type="text"
               placeholder="First Name"
               onChange={this.handleChange}
-              autocomplete="off"
+              autoComplete="off"
             />
             <input
               name="lastname"
@@ -162,7 +162,7 @@ export default class Register extends Component {
               type="text"
               placeholder="Last Name"
               onChange={this.handleChange}
-              autocomplete="off"
+              autoComplete="off"
             />
           </div>
           <div>
