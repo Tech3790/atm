@@ -67,9 +67,14 @@ export default class AccountSummary extends Component {
       let { cardNumber, PIN } = this.state;
       let showTransactionsData = { cardNumber, PIN };
       axios
-        .post(
-          "http://localhost:8080/accounts/getTransactions",
-          showTransactionsData
+        .get(
+          "http://localhost:8080/transactions",
+          {
+            params: {
+              cardNumber: showTransactionsData.cardNumber,
+              PIN: showTransactionsData.PIN
+            }
+          }
         )
         .then(res => {
           this.setState({

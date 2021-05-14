@@ -85,8 +85,6 @@ export default class Deposit extends Component {
       axios
         .post("http://localhost:8080/accounts/deposit", depositData)
         .then(data => {
-          console.log("daaaataaaa", data);
-
           if (data.data === "card number doesn't exist") {
             this.setState({
               formErrors: [...this.state.formErrors, data.data]

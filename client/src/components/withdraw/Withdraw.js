@@ -103,7 +103,6 @@ export default class Withdraw extends Component {
       axios
         .post("http://localhost:8080/accounts/withdraw", withdrawData)
         .then(data => {
-          console.log("data is ", data.data);
 
           if (typeof data.data === "string") {
             this.setState({
@@ -113,7 +112,7 @@ export default class Withdraw extends Component {
             this.setState({
               remaining: data,
               successMessage:
-                "Transaction succeeded please take you money and your receipt."
+                "Transaction succeeded please take your money and your receipt."
             });
           }
         })
