@@ -11,7 +11,7 @@ class TransactionsController {
         }
 
         if (!PIN) {
-            response.status(400).json('PIN number is required.')
+            next(ApiError.badRequest('PIN number is required.'))
             return
         }
 

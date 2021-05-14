@@ -10,11 +10,11 @@ class DepositController {
             return
         }
         if (!amount) {
-            response.status(400).json('Amount is required.')
+            next(ApiError.badRequest('Amount is required.'))
             return
         }
         if (!PIN) {
-            response.status(400).json('PIN number is required.')
+            next(ApiError.badRequest('PIN number is required.'))
             return
         }
         knex.deposit(request.body).then(data => {

@@ -11,22 +11,22 @@ class UsersController {
         }
 
         if (!lastname) {
-            response.status(400).json('Last name is required.')
+            next(ApiError.badRequest('Last name is required.'))
             return
         }
 
         if (!initialBalance) {
-            response.status(400).json('Initial balance is required.')
+            next(ApiError.badRequest('Initial balance is required.'))
             return
         }
 
         if (!cardNumber) {
-            response.status(400).json('Card number is required.')
+            next(ApiError.badRequest('Card number is required.'))
             return
         }
 
         if (!PIN) {
-            response.status(400).json('PIN number is required.')
+            next(ApiError.badRequest('PIN number is required.'))
             return
         }
 
