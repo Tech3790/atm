@@ -125,7 +125,7 @@ export default class Register extends Component {
       let { firstname, lastname, initialBalance, cardNumber, PIN } = this.state;
       let userData = { firstname, lastname, initialBalance, cardNumber, PIN };
       axios
-        .post("http://localhost:8080/users/createUser", userData)
+        .post("http://localhost:8080/users", userData)
         .then(res => {
           this.setState({ successMessage: "User added successfully" });
         })

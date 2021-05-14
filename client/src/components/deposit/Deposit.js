@@ -83,7 +83,7 @@ export default class Deposit extends Component {
       let { cardNumber, amount, PIN } = this.state;
       let depositData = { cardNumber, amount, PIN };
       axios
-        .post("http://localhost:8080/accounts/deposit", depositData)
+        .post("http://localhost:8080/deposit", depositData)
         .then(data => {
           if (data.data === "card number doesn't exist") {
             this.setState({

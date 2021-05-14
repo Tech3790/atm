@@ -101,7 +101,7 @@ export default class Withdraw extends Component {
       let { cardNumber, PIN, amount } = this.state;
       let withdrawData = { cardNumber, PIN, amount };
       axios
-        .post("http://localhost:8080/accounts/withdraw", withdrawData)
+        .post("http://localhost:8080/withdraw", withdrawData)
         .then(data => {
 
           if (typeof data.data === "string") {
